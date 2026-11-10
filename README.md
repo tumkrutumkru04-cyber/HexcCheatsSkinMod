@@ -32,3 +32,8 @@ Never commit `VIPLINK_API_TOKEN` to GitHub or put it in frontend JavaScript. The
 - `public/` is the complete client application and asset bundle.
 - The studio persists the current selection in browser storage, without login.
 - `Create Mod` and `Create All 4 Versions` are local browser exports.
+
+## Key access and admin panel
+The site no longer saves access or UI cookies. After the VIPLINK task, the server issues a 24-hour key. Create Mod asks for that key and checks it against `Databasehex.db`; each key supports up to 10 unique IP addresses. The admin panel is available at `/admin` for login, random/custom key generation, key inspection, and revocation.
+
+For Railway, set `DB_PATH` to a mounted persistent-volume path such as `/data/Databasehex.db`; without a Railway Volume, SQLite changes can be lost on a redeploy. Set `ADMIN_USERNAME` and `ADMIN_PASSWORD` as Railway variables. Never commit the password.
