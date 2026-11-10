@@ -5,7 +5,6 @@
  window.alokPackageDownload=(bytes,version)=>{
    if(!prefixes[version])throw Error('Invalid version.');
   let packed=bytes;
-  if(!window.alokPackagedExports?.has(bytes)){const entries=fflate.unzipSync(bytes);entries[copyrightName]=copyrightBytes;packed=fflate.zipSync(entries,{level:0});}
   if(usedCodes.size>=67600)usedCodes.clear();
   let code;
   do{
