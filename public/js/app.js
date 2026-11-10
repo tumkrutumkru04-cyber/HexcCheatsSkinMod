@@ -131,7 +131,10 @@
 
   let fourDownloadUrls=[];
   window.addEventListener('beforeunload',()=>fourDownloadUrls.forEach(url=>URL.revokeObjectURL(url)));
+  const cookieGet = name => { const row = document.cookie.split('; ').find(item => item.startsWith(name + '=')); return row ? decodeURIComponent(row.slice(name.length + 1)) : ''; };
+  const cookieSet = (name, value, maxAge = 31536000) => { document.cookie = `${name}=${encodeURIComponent(value)}; Max-Age=${maxAge}; Path=/; SameSite=Lax`; };
   const storageKey = () => 'wardrobe-selection-'+assets.characterId+'-' + getVersion();
+  const uiCookieKey = () => 'hex_ui_loadout_' + assets.characterId + '_' + getVersion();
   function fileForSelection(s=selection()) {
 
     if((!assets.voiceProfile?.enabled||getVoice()==='alok') && fields.every(k=>picked(k,s).default)) return assets.originals[getVersion()];
@@ -186,7 +189,7 @@
       });
     });
     setDefaults();
-    let saved; try { saved=JSON.parse(localStorage.getItem(storageKey())); } catch {}
+    let saved; try { saved=JSON.parse(cookieGet(uiCookieKey()) || localStorage.getItem(storageKey())); } catch {}
     if(saved && typeof saved==='object') fields.forEach(k => {
       const index=assets.itemCatalog[k].findIndex(i=>i.id===saved[k]);
       if([...$(k).options].some(o=>o.value===String(index))) $(k).value=String(index);
@@ -199,7 +202,9 @@
     const captions={hair:'Hair',top:'Top',bottom:'Bottom',shoes:'Shoes',mask:'Mask',face:'Face',action:assets.characterId==='ignis'?'Fist':'Action'};
     $('selection-summary').textContent=fields.map(k=>captions[k]+': '+picked(k,s).name).join('\n');
     if(assets.characterId==='alok')$('selection-summary').textContent+='';
-    try { localStorage.setItem(storageKey(),JSON.stringify(Object.fromEntries(fields.map(k=>[k,picked(k,s).id])))); } catch {}
+    const savedUi = Object.fromEntries(fields.map(k=>[k,picked(k,s).id]));
+    try { localStorage.setItem(storageKey(),JSON.stringify(savedUi)); } catch {}
+    cookieSet(uiCookieKey(), JSON.stringify(savedUi));
     $('download').disabled = downloading || !file;
     $('download-all').disabled = downloading || !file;
     $('download-all-label').textContent = downloading ? 'Preparing files…' : 'Create all 4 versions';

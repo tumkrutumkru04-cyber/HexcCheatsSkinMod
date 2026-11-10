@@ -37,12 +37,16 @@ function makePass() {
   const value = `${expires}.${sign(String(expires))}`;
   return { value, expires };
 }
-function validPass(req) {
+function passInfo(req) {
   const value = parseCookies(req.headers.cookie)[ACCESS_COOKIE];
-  if (!value) return false;
+  if (!value) return { valid: false, expiresAt: 0 };
   const [expires, signature] = value.split('.');
-  const expected = Buffer.from(sign(expires)); const received = Buffer.from(signature || ''); return /^\d+$/.test(expires) && Number(expires) > Math.floor(Date.now() / 1000) && received.length === expected.length && crypto.timingSafeEqual(received, expected);
+  const expected = Buffer.from(sign(expires)); const received = Buffer.from(signature || '');
+  const expiresAt = /^\d+$/.test(expires) ? Number(expires) : 0;
+  const valid = expiresAt > Math.floor(Date.now() / 1000) && received.length === expected.length && crypto.timingSafeEqual(received, expected);
+  return { valid, expiresAt: valid ? expiresAt : 0 };
 }
+function validPass(req) { return passInfo(req).valid; }
 async function createVipLink(state) {
   if (!VIPLINK_API_TOKEN) throw new Error('VIPLINK_API_TOKEN is not configured on Railway.');
   const destination = `${PUBLIC_URL}/unlock/complete?state=${encodeURIComponent(state)}`;
@@ -65,7 +69,7 @@ const server = http.createServer(async (req, res) => {
   const parsed = url.parse(req.url, true);
   const pathname = parsed.pathname || '/';
   if (pathname === '/health' || pathname === '/api/health') return json(res, 200, { ok: true, service: 'hex-cheats-skinmod' });
-  if (pathname === '/api/access-status') { const unlocked = Boolean(VIPLINK_API_TOKEN) && validPass(req); return json(res, 200, { unlocked, expiresIn: unlocked ? ACCESS_TTL_SECONDS : 0 }); }
+  if (pathname === '/api/access-status') { const info = passInfo(req); const unlocked = Boolean(VIPLINK_API_TOKEN) && info.valid; const expiresIn = unlocked ? Math.max(0, info.expiresAt - Math.floor(Date.now() / 1000)) : 0; return json(res, 200, { unlocked, expiresIn }); }
 
   if (pathname === '/api/unlock/start') {
     if (req.method !== 'GET') return json(res, 405, { error: 'Method Not Allowed' });

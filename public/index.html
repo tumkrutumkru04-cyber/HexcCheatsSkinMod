@@ -35,6 +35,7 @@
     <div class="top-actions">
       <span class="live-pill"><i aria-hidden="true"></i><span id="online-count">ONLINE</span></span>
       <span class="platform-pill" id="platform-label">ANDROID · STANDARD</span>
+      <span class="access-pill locked" id="access-pill">ACCESS LOCKED</span>
       <a class="btn btn-ghost btn-sm top-tg" href="https://t.me/+NBy4GLVQGYFiOTU1" target="_blank" rel="noopener">Telegram</a>
       <button class="menu-btn" id="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="top-nav">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
@@ -185,6 +186,21 @@
             <div class="mod-progress-top"><span id="mod-progress-title">BUILDING</span><b id="mod-progress-percent">0%</b></div>
             <progress id="mod-progress-bar" max="100" value="0"></progress>
             <div class="mod-progress-bottom"><span id="mod-progress-step">Preparing…</span><button id="mod-cancel" type="button">CANCEL</button></div>
+          </div>
+          <div id="unlock-modal" class="unlock-modal" hidden>
+            <div class="unlock-card" role="dialog" aria-modal="true" aria-labelledby="unlock-title">
+              <button id="unlock-close" class="unlock-close" type="button" aria-label="Close verification">×</button>
+              <div class="unlock-orb"><span></span></div>
+              <span class="unlock-kicker" id="unlock-kicker">SECURE EXPORT PROTOCOL</span>
+              <h3 id="unlock-title">Complete the VIPLINK task</h3>
+              <p id="unlock-copy">Complete the task to unlock downloads. No ZIP file will be generated before access is confirmed.</p>
+              <div class="unlock-steps">
+                <div class="unlock-step is-active" id="unlock-step-1"><b>01</b><span>Start verification task</span><i></i></div>
+                <div class="unlock-step" id="unlock-step-2"><b>02</b><span>Complete the task</span><i></i></div>
+                <div class="unlock-step" id="unlock-step-3"><b>03</b><span>Return with 24-hour access</span><i></i></div>
+              </div>
+              <button id="unlock-continue" class="btn btn-primary unlock-continue" type="button" hidden>CONTINUE TO STUDIO</button>
+            </div>
           </div>
 
           <div class="export-note"><strong>NO UPLOAD.</strong> Files are generated inside your browser. Android & iOS builds, Standard and MAX.</div>
