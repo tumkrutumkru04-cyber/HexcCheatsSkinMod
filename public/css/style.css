@@ -837,3 +837,20 @@ body.picker-open{overflow:hidden}
 .telegram-mark svg,.support-mark svg{width:24px;height:24px}
 .support-mark{color:#a78bfa!important}
 #downloads{scroll-margin-top:100px}
+/* ---------- icon build picker ---------- */
+.version-wrap>select{position:absolute!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important}
+.version-wrap::after{display:none}
+.version-picker{position:relative}
+.version-picker-button,.version-option{display:flex;align-items:center;gap:9px;width:100%;border:1px solid var(--line);background:#0a0f19;color:var(--text);font:inherit;font-weight:700;text-align:left;cursor:pointer}
+.version-picker-button{height:47px;padding:0 12px;border-radius:11px;transition:border-color .2s,background .2s}
+.version-picker-button:hover,.version-picker.is-open .version-picker-button{border-color:rgba(34,211,238,.5);background:#0c1522}
+.version-picker-button>span{flex:1;font-size:12px}
+.version-picker-button>i{width:7px;height:7px;border-right:1.5px solid var(--cyan);border-bottom:1.5px solid var(--cyan);transform:translateY(-2px) rotate(45deg);transition:transform .2s}
+.version-picker.is-open .version-picker-button>i{transform:translateY(2px) rotate(225deg)}
+.version-picker-menu{position:absolute;z-index:80;top:calc(100% + 7px);left:0;right:0;display:none;padding:6px;border:1px solid rgba(34,211,238,.28);border-radius:13px;background:#0a0d14;box-shadow:0 22px 50px rgba(0,0,0,.65)}
+.version-picker.is-open .version-picker-menu{display:grid;gap:4px}
+.version-option{min-height:48px;padding:7px 8px;border-color:transparent;border-radius:9px;font-size:11px}
+.version-option:hover,.version-option.is-selected{border-color:rgba(34,211,238,.35);background:rgba(34,211,238,.08)}
+.version-platform-icon{width:24px;height:24px;object-fit:contain;flex:0 0 24px}
+.version-game-icon{width:31px;height:31px;border-radius:7px;object-fit:cover;flex:0 0 31px;border:1px solid rgba(255,255,255,.12)}
+@media (max-width:600px){.version-picker-menu{position:fixed;left:16px;right:16px;top:auto;bottom:16px;padding:9px;border-radius:18px}.version-option{min-height:58px;font-size:14px}.version-picker-button{height:49px}}
