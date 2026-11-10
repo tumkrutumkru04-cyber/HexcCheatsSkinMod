@@ -10,6 +10,7 @@ const PUBLIC_URL = (process.env.PUBLIC_URL || 'https://hexcheatsskinmod.up.railw
 const VIPLINK_API_TOKEN = process.env.VIPLINK_API_TOKEN || '';
 const ACCESS_SECRET = process.env.ACCESS_SECRET || crypto.randomBytes(32).toString('hex');
 const ACCESS_TTL_SECONDS = 24 * 60 * 60;
+const ACCESS_COOKIE = 'hex_access_v2';
 const pending = new Map();
 const MIME = {
   '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8',
@@ -37,7 +38,7 @@ function makePass() {
   return { value, expires };
 }
 function validPass(req) {
-  const value = parseCookies(req.headers.cookie).hex_access;
+  const value = parseCookies(req.headers.cookie)[ACCESS_COOKIE];
   if (!value) return false;
   const [expires, signature] = value.split('.');
   const expected = Buffer.from(sign(expires)); const received = Buffer.from(signature || ''); return /^\d+$/.test(expires) && Number(expires) > Math.floor(Date.now() / 1000) && received.length === expected.length && crypto.timingSafeEqual(received, expected);
@@ -64,7 +65,7 @@ const server = http.createServer(async (req, res) => {
   const parsed = url.parse(req.url, true);
   const pathname = parsed.pathname || '/';
   if (pathname === '/health' || pathname === '/api/health') return json(res, 200, { ok: true, service: 'hex-cheats-skinmod' });
-  if (pathname === '/api/access-status') return json(res, 200, { unlocked: validPass(req), expiresIn: validPass(req) ? ACCESS_TTL_SECONDS : 0 });
+  if (pathname === '/api/access-status') { const unlocked = Boolean(VIPLINK_API_TOKEN) && validPass(req); return json(res, 200, { unlocked, expiresIn: unlocked ? ACCESS_TTL_SECONDS : 0 }); }
 
   if (pathname === '/api/unlock/start') {
     if (req.method !== 'GET') return json(res, 405, { error: 'Method Not Allowed' });
@@ -80,7 +81,7 @@ const server = http.createServer(async (req, res) => {
     pending.delete(state);
     if (!expiresAt || expiresAt < Date.now()) return res.writeHead(400, { 'Content-Type': 'text/html; charset=utf-8' }) && res.end('<h1>Unlock link expired</h1><p>Return to HEX CHEATS SKINMOD and try again.</p>');
     const pass = makePass();
-    res.writeHead(302, { 'Location': '/?unlocked=1#studio', 'Set-Cookie': `hex_access=${encodeURIComponent(pass.value)}; Max-Age=${ACCESS_TTL_SECONDS}; Path=/; HttpOnly; Secure; SameSite=Lax`, 'Cache-Control': 'no-store' });
+    res.writeHead(302, { 'Location': '/?unlocked=1#studio', 'Set-Cookie': `${ACCESS_COOKIE}=${encodeURIComponent(pass.value)}; Max-Age=${ACCESS_TTL_SECONDS}; Path=/; HttpOnly; Secure; SameSite=Lax`, 'Cache-Control': 'no-store' });
     return res.end();
   }
 

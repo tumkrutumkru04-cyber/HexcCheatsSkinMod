@@ -272,7 +272,7 @@
   $('download').addEventListener('click',async()=>{
     const chosen=selection(), version=getVersion(), file=fileForSelection(chosen); if(!file || downloading) return;
     downloading=true; update();startMod();
-    const controls=[...document.querySelectorAll('select, #randomize, #reset, #download-all')];controls.forEach(el=>el.disabled=true);
+    const controls=[...document.querySelectorAll('select, #randomize, #reset, #download-all, .version-picker-button')];controls.forEach(el=>el.disabled=true);
     try {
       const ticket=await window.fishCheckExport(1);
       checkCancelled();await window.alokEnsureExport(p=>reportMod(2+p*.18,'Loading export data…'),exportAbort.signal);checkCancelled();await new Promise(resolve=>requestAnimationFrame(resolve));
@@ -295,14 +295,14 @@
       document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);
       controls.forEach(el=>el.disabled=false);downloading=false;$('mod-progress').hidden=true;update();$('status').textContent=(assets.characterId==='ignis'&&picked('top',chosen).id==='top-sasuke'?'Sasuke top exported with IG38 data.':'The selected ZIP file is ready.');
     } catch(err) {
-      controls.forEach(el=>el.disabled=false);downloading=false;$('mod-progress').hidden=true;update();$('status').classList.add('error');$('status').textContent=err.name==='AbortError'?'Export cancelled.':'Could not create file: '+err.message;
+      controls.forEach(el=>el.disabled=false);downloading=false;$('mod-progress').hidden=true;update();if (err.name !== 'AbortError' || err.message !== 'Verification required') { $('status').classList.add('error'); $('status').textContent=err.name==='AbortError'?'Export cancelled.':'Could not create file: '+err.message; }
     }
   });
   $('download-all').addEventListener('click',async()=>{
     if(downloading)return;
     const chosen=selection();
     downloading=true;update();startMod();
-    const controls=[...document.querySelectorAll('select, #randomize, #reset')];controls.forEach(el=>el.disabled=true);
+    const controls=[...document.querySelectorAll('select, #randomize, #reset, .version-picker-button')];controls.forEach(el=>el.disabled=true);
     try{
       const ticket=await window.fishCheckExport(4);
       checkCancelled();await window.alokEnsureExport(p=>reportMod(2+p*.18,'Loading export data…'),exportAbort.signal);checkCancelled();await new Promise(resolve=>requestAnimationFrame(resolve));

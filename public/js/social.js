@@ -31,7 +31,7 @@
         const option = document.createElement('button');
         option.type = 'button'; option.className = 'version-option' + (value === version.value ? ' is-selected' : ''); option.setAttribute('role', 'option'); option.setAttribute('aria-selected', String(value === version.value));
         option.innerHTML = `<img class="version-platform-icon" src="${meta.platform}" alt=""><img class="version-game-icon" src="${meta.game}" alt=""><span>${meta.label}</span>`;
-        option.addEventListener('click', () => { version.value = value; version.dispatchEvent(new Event('change', { bubbles: true })); picker.classList.remove('is-open'); button.setAttribute('aria-expanded', 'false'); });
+        option.addEventListener('click', () => { version.value = value; window.currentAlokVersion = value; try { localStorage.setItem('alok-current-version', value); } catch {} version.dispatchEvent(new Event('change', { bubbles: true })); picker.classList.remove('is-open'); button.setAttribute('aria-expanded', 'false'); });
         menu.append(option);
       });
     };
@@ -49,7 +49,7 @@
     const data = await response.json();
     if (!response.ok || !data.shortUrl) throw new Error(data.error || 'Could not create the verification link.');
     const statusEl = document.getElementById('status');
-    if (statusEl) { statusEl.classList.remove('error'); statusEl.textContent = 'VERIFICATION PROTOCOL ACTIVE — opening the task…'; }
+    if (statusEl) { statusEl.classList.remove('error'); statusEl.textContent = 'COMPLETE THE VIPLINK TASK — no ZIP has been generated. Opening secure verification…'; }
     await new Promise(resolve => setTimeout(resolve, 850));
     window.location.assign(data.shortUrl);
     throw new DOMException('Verification required', 'AbortError');
