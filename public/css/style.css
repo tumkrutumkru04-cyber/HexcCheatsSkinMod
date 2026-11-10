@@ -830,3 +830,10 @@ body.picker-open{overflow:hidden}
 .social-grid-two{grid-template-columns:repeat(2,minmax(0,1fr))}
 @media (max-width:1100px){.download-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:600px){.download-grid,.social-grid-two{grid-template-columns:1fr}.download-card{padding:15px}}
+.download-icon{overflow:hidden;position:relative}
+.download-icon img{width:100%;height:100%;object-fit:cover;opacity:.92;filter:saturate(1.12);transform:scale(1.2)}
+.download-card.max .download-icon img{filter:saturate(.9) hue-rotate(12deg)}
+.download-card.ios .download-icon{border-color:rgba(255,255,255,.2)}
+.telegram-mark svg,.support-mark svg{width:24px;height:24px}
+.support-mark{color:#a78bfa!important}
+#downloads{scroll-margin-top:100px}
