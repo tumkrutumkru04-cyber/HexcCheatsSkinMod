@@ -874,3 +874,6 @@ body.picker-open{overflow:hidden}
 .unlock-card.is-key .unlock-kicker{color:#fbbf24}
 .key-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.key-actions .unlock-continue{margin-top:10px}.key-actions .btn-ghost{border-color:rgba(34,211,238,.25);color:var(--cyan);background:rgba(34,211,238,.04)}
 @media(max-width:420px){.key-actions{grid-template-columns:1fr}}
+/* GET KEY intentionally matches VERIFY KEY so the two actions read as one flow. */
+.key-actions #get-key{border-color:rgba(34,211,238,.45);background:linear-gradient(135deg,rgba(34,211,238,.22),rgba(34,211,238,.08));color:#b9f6ff}
+.key-actions #get-key:hover{background:linear-gradient(135deg,rgba(34,211,238,.32),rgba(34,211,238,.12))}
