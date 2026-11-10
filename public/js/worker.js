@@ -147,7 +147,7 @@ self.onmessage=async event=>{
   const bundle=await pack(base,patch,compressed,p=>postMessage({id,progress:p}));postMessage({id,progress:80});
   const [os,game]=version.split('-');
   const folder=os==='android'?(game==='max'?'com.dts.freefiremax':'com.dts.freefireth')+'/files/contentcache/Optional/android/optionalavatarres/gameassetbundles/':'Documents/contentcache/Optional/ios/optionalavatarres/gameassetbundles/';
-  const zip=fflate.zipSync({[folder+base.bundleName]:bundle,['HEX CHEATS SKINMOD.TXT']:new TextEncoder().encode('HEX CHEATS SKINMOD | Telegram: @xitexez')},{level:0});
+  const zip=fflate.zipSync({[folder+base.bundleName]:bundle},{level:0});
   postMessage({id,result:zip.buffer},[zip.buffer]);
  }catch(error){postMessage({id,error:error.message||String(error)});}
 };
