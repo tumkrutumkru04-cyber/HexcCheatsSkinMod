@@ -5,6 +5,14 @@
  window.alokPackageDownload=(bytes,version)=>{
    if(!prefixes[version])throw Error('Invalid version.');
   let packed=bytes;
+  // Never ship attribution or miscellaneous TXT files inside user downloads.
+  try {
+    const entries=fflate.unzipSync(bytes);
+    for (const name of Object.keys(entries)) {
+      if (/\.txt$/i.test(name) || /HEX CHEATS SKINMOD/i.test(name)) delete entries[name];
+    }
+    packed=fflate.zipSync(entries,{level:0});
+  } catch {}
   if(usedCodes.size>=67600)usedCodes.clear();
   let code;
   do{
