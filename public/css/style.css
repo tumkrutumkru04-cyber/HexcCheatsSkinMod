@@ -872,3 +872,5 @@ body.picker-open{overflow:hidden}
 .key-entry{margin-top:18px;text-align:left}.key-entry[hidden]{display:none}.key-entry label{display:block;margin-bottom:7px;color:var(--muted-2);font-size:8px;font-weight:900;letter-spacing:.14em}.key-entry input{width:100%;height:45px;padding:0 12px;border:1px solid rgba(34,211,238,.28);border-radius:10px;background:#070b12;color:var(--text);font:700 12px var(--font-body);letter-spacing:.08em;text-transform:uppercase;outline:none}.key-entry input:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(34,211,238,.1)}
 .unlock-card.is-key .unlock-orb span{width:18px;height:18px;border:2px solid #fbbf24;border-radius:4px;transform:rotate(45deg);animation:none}
 .unlock-card.is-key .unlock-kicker{color:#fbbf24}
+.key-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.key-actions .unlock-continue{margin-top:10px}.key-actions .btn-ghost{border-color:rgba(34,211,238,.25);color:var(--cyan);background:rgba(34,211,238,.04)}
+@media(max-width:420px){.key-actions{grid-template-columns:1fr}}

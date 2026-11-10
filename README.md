@@ -34,6 +34,6 @@ Never commit `VIPLINK_API_TOKEN` to GitHub or put it in frontend JavaScript. The
 - `Create Mod` and `Create All 4 Versions` are local browser exports.
 
 ## Key access and admin panel
-The site no longer saves access or UI cookies. After the VIPLINK task, the server issues a 24-hour key. Create Mod asks for that key and checks it against `Databasehex.db`; each key supports up to 10 unique IP addresses. The admin panel is available at `/admin` for login, random/custom key generation, key inspection, and revocation.
+The site no longer saves access or UI cookies. The GET KEY button opens the VIPLINK protocol, waits five seconds before redirecting, and shows the generated random key with COPY KEY when the task is complete. After the VIPLINK task, the server issues a 24-hour key. Create Mod asks for that key and checks it against `Databasehex.db`; each key supports up to 10 unique IP addresses. The admin panel is available at `/admin` for login, random/custom key generation, key inspection, and revocation.
 
 For Railway, set `DB_PATH` to a mounted persistent-volume path such as `/data/Databasehex.db`; without a Railway Volume, SQLite changes can be lost on a redeploy. Set `ADMIN_USERNAME` and `ADMIN_PASSWORD` as Railway variables. Never commit the password.
