@@ -1,0 +1,14 @@
+{
+  "name": "hex-cheats-skinmod",
+  "version": "1.0.0",
+  "private": true,
+  "description": "HEX CHEATS SKINMOD browser-based Free Fire outfit studio",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
