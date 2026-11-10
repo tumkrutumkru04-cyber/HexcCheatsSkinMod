@@ -17,7 +17,15 @@ Open `http://localhost:3000`. The `/health` endpoint returns a JSON health check
 3. Select the repository. Railway detects `package.json` and runs `npm start`.
 4. Generate a public domain in Railway and open the URL.
 
-No API keys or shortener tokens belong in the repository or browser bundle. If an external link service is added later, keep its credential server-side as a Railway variable and document its use clearly to visitors. This build intentionally does not fingerprint visitors by IP or create hidden access gates.
+The download unlock uses a signed, HttpOnly browser cookie for 24 hours. It does not fingerprint visitors by IP. Before the unlock flow can create task links, add these Railway variables in the service's **Variables** tab:
+
+```text
+VIPLINK_API_TOKEN=your-current-vplink-token
+ACCESS_SECRET=generate-a-long-random-secret
+PUBLIC_URL=https://hexcheatsskinmod.up.railway.app
+```
+
+Never commit `VIPLINK_API_TOKEN` to GitHub or put it in frontend JavaScript. The supplied token appeared in the original notes and should be regenerated in VPLINK before production use. The code keeps the token server-side and uses it only in `/api/unlock/start`.
 
 ## Notes
 

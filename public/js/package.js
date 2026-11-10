@@ -1,7 +1,7 @@
 (() => {
   const prefixes={'android-normal':'HEX CHEATS SKINMOD Android FF Standard','android-max':'HEX CHEATS SKINMOD Android FF MAX','ios-normal':'HEX CHEATS SKINMOD iOS FF Standard','ios-max':'HEX CHEATS SKINMOD iOS FF MAX'};
   const copyrightName="HEX CHEATS SKINMOD.TXT";
-  const copyrightBytes=new TextEncoder().encode("HEX CHEATS SKINMOD | Telegram: @xitexez");
+  const copyrightBytes=new TextEncoder().encode("HEX CHEATS SKINMOD | Telegram: @HeX_CiPhEr");
  const usedCodes=new Set();
  let lastCode;try{lastCode=localStorage.getItem("alok-last-export-code");}catch{}
  window.alokPackageDownload=(bytes,version)=>{
