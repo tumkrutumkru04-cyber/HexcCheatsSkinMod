@@ -80,7 +80,7 @@ const server = http.createServer(async (req, res) => {
     pending.delete(state);
     if (!expiresAt || expiresAt < Date.now()) return res.writeHead(400, { 'Content-Type': 'text/html; charset=utf-8' }) && res.end('<h1>Unlock link expired</h1><p>Return to HEX CHEATS SKINMOD and try again.</p>');
     const pass = makePass();
-    res.writeHead(302, { 'Location': '/#studio', 'Set-Cookie': `hex_access=${encodeURIComponent(pass.value)}; Max-Age=${ACCESS_TTL_SECONDS}; Path=/; HttpOnly; Secure; SameSite=Lax`, 'Cache-Control': 'no-store' });
+    res.writeHead(302, { 'Location': '/?unlocked=1#studio', 'Set-Cookie': `hex_access=${encodeURIComponent(pass.value)}; Max-Age=${ACCESS_TTL_SECONDS}; Path=/; HttpOnly; Secure; SameSite=Lax`, 'Cache-Control': 'no-store' });
     return res.end();
   }
 
